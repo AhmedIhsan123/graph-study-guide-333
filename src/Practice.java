@@ -108,7 +108,28 @@ public class Practice {
    * @return a sorted list of all reachable vertex values
    */
   public static List<Integer> sortedReachable(Map<Integer, Set<Integer>> graph, int starting) {
-    return null;
+    if (!graph.containsKey(starting)) return new ArrayList<>();
+    List<Integer> result = new ArrayList<>();
+    Set<Integer> visited = new HashSet<>();
+    Queue<Integer> queue = new LinkedList<>();
+    queue.add(starting);
+    visited.add(starting);
+
+    while (!queue.isEmpty()) {
+      int current = queue.poll();
+      result.add(current);
+      for (int neighbor : graph.get(current)) {
+        if (!visited.contains(neighbor)) {
+          visited.add(neighbor);
+          queue.add(neighbor);
+        }
+      }
+    }
+
+
+    Collections.sort(result);
+    
+    return result;
   }
 
   /**
