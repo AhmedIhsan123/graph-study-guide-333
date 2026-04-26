@@ -128,7 +128,7 @@ public class Practice {
 
 
     Collections.sort(result);
-    
+
     return result;
   }
 
@@ -147,9 +147,28 @@ public class Practice {
    * @return true if there is a two-way connection between v1 and v2, false otherwise
    */
   public static <T> boolean twoWay(Vertex<T> v1, Vertex<T> v2) {
-    return false;
+    if (v1 == null || v2 == null) return false;
+    return canReach(v1, v2) && canReach(v2, v1);
   }
 
+  private static <T> boolean canReach(Vertex<T> from, Vertex<T> to) {
+    Set<Vertex<T>> visited = new HashSet<>();
+    Queue<Vertex<T>> queue = new LinkedList<>();
+    queue.add(from);
+    visited.add(from);
+
+    while (!queue.isEmpty()) {
+      Vertex<T> current = queue.poll();
+      if (current == to) return true;
+      for (Vertex<T> neighbor : current.neighbors) {
+        if (!visited.contains(neighbor)) {
+          visited.add(neighbor);
+          queue.add(neighbor);
+        }
+      }
+    }
+    return false;
+}
   /**
    * Returns whether there exists a path from the starting to ending vertex that includes only positive values.
    * 
